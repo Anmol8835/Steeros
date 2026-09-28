@@ -20,23 +20,31 @@ Next.js 16 (App Router, Turbopack), TypeScript, Tailwind v4. [Motion](https://mo
 
 | Section | Motion | Why |
 |---|---|---|
-| Hero | one orchestrated load sequence + live console slip | the single entrance moment; product proof |
+| Hero | one orchestrated load sequence | the single entrance moment |
 | Stat band | count-up numerals | the claim lands as measured |
 | Problem | scroll-scrubbed word reveal | the Ferrari line lands as you read it |
 | Pipeline | GSAP pinned horizontal pan | the four stages are a linear story |
-| Tiers | GSAP sticky stack | the ladder is a hierarchy |
+| Tiers | static cards | content-first; no gimmick |
 | Calculator | spring-animated numbers | feedback on user input |
-| Final CTA | one masked reveal + magnetic button | conversion moment |
+| Routing map | animated request dashes | the proxy is live |
 
 No per-section fades, no marquee, no hover-everything. Everything collapses to static under `prefers-reduced-motion`; GSAP sections fall back to vertical stacks. `html` and `body` are white from the first paint, no flash.
 
 ## API routes
 
 - `GET /api/config` — downloads `routes.free.yaml` (mirrors the real Steeros free-config endpoint)
-- `POST /api/lead` — enterprise lead capture, persists to `leads.json` (gitignored), dedupes on email
-- `POST /api/newsletter` — newsletter signup, persists to `newsletter.json` (gitignored), dedupes on email
+- `POST /api/lead` — enterprise lead capture, dedupes on email
+- `POST /api/newsletter` — newsletter signup, dedupes on email
+- `POST /api/early-access` — early access waitlist, dedupes on email
+
+All three signup endpoints share `src/lib/entries-store.ts`:
+
+- **With `BLOB_READ_WRITE_TOKEN` set** (Vercel): entries persist to a **private Vercel Blob** (same JSON shape). Create a blob store in the Vercel dashboard (Storage → Blob), then set `BLOB_READ_WRITE_TOKEN` in Project → Settings → Environment Variables and redeploy.
+- **Without the token** (local dev): entries fall back to JSON files in the project root (`leads.json`, `newsletter.json`, `early-access.json` — gitignored).
+
+To see signups in production, open the blob store in the Vercel dashboard (Storage → Blob) — each file holds the full JSON array. Serverless filesystems are ephemeral, so never rely on the local-file fallback in production.
 
 ## Footer
 
-Structured like the Amini.ai footer: closing CTA, newsletter signup, link columns (Product / Resources / Company), legal row with real `/terms` and `/privacy` pages. The Socials column is intentionally absent until Steeros has public profiles.
+Newsletter signup, link columns (Product / Resources / Company, including Early access → `/early-access`), and a legal row with real `/terms` and `/privacy` pages. The Socials column is intentionally absent until Steeros has public profiles.
 # Steeros

@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { addEntry, type StoreEntry } from "@/lib/entries-store";
 
 /**
  * Enterprise lead capture. Mirrors the real Steeros
  * POST /api/enterprise/lead endpoint: validates the email, dedupes on
- * email, persists to leads.json on disk.
+ * email, and persists via the shared store — a private Vercel Blob in
+ * production, leads.json on disk in local dev.
  */
 
-const LEADS_FILE = path.join(process.cwd(), "leads.json");
-
-type Lead = {
-  id: number;
-  ts: string;
+type Lead = StoreEntry & {
   name: string;
-  email: string;
   company: string;
 };
 
@@ -35,27 +30,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
-  let leads: Lead[] = [];
-  try {
-    leads = JSON.parse(await fs.readFile(LEADS_FILE, "utf-8"));
-  } catch {
-    leads = [];
-  }
+  const { id, existing } = await addEntry<Lead>(
+    "leads.json",
+    cleanEmail,
+    (entryId, ts) => ({
+      id: entryId,
+      ts,
+      name: cleanName,
+      email: cleanEmail,
+      company: cleanCompany,
+    }),
+  );
 
-  const existing = leads.find((l) => l.email === cleanEmail);
-  if (existing) {
-    return NextResponse.json({ ok: true, id: existing.id, existing: true });
-  }
-
-  const lead: Lead = {
-    id: leads.length + 1,
-    ts: new Date().toISOString(),
-    name: cleanName,
-    email: cleanEmail,
-    company: cleanCompany,
-  };
-  leads.push(lead);
-  await fs.writeFile(LEADS_FILE, JSON.stringify(leads, null, 2), "utf-8");
-
-  return NextResponse.json({ ok: true, id: lead.id, existing: false });
+  return NextResponse.json({ ok: true, id, existing });
 }

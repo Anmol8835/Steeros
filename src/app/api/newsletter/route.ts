@@ -1,20 +1,11 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { addEntry, type StoreEntry } from "@/lib/entries-store";
 
 /**
- * Newsletter signup. Validates the email, dedupes on email, persists to
- * newsletter.json on disk. Mirrors the same pattern as the lead
- * endpoint and the real Steeros backend.
+ * Newsletter signup. Validates the email, dedupes on email, and
+ * persists via the shared store: a private Vercel Blob in production,
+ * newsletter.json on disk in local dev.
  */
-
-const SUBSCRIBERS_FILE = path.join(process.cwd(), "newsletter.json");
-
-type Subscriber = {
-  id: number;
-  ts: string;
-  email: string;
-};
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,25 +22,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
-  let subscribers: Subscriber[] = [];
-  try {
-    subscribers = JSON.parse(await fs.readFile(SUBSCRIBERS_FILE, "utf-8"));
-  } catch {
-    subscribers = [];
-  }
+  const { id, existing } = await addEntry<StoreEntry>(
+    "newsletter.json",
+    cleanEmail,
+    (entryId, ts) => ({ id: entryId, ts, email: cleanEmail }),
+  );
 
-  const existing = subscribers.find((s) => s.email === cleanEmail);
-  if (existing) {
-    return NextResponse.json({ ok: true, id: existing.id, existing: true });
-  }
-
-  const subscriber: Subscriber = {
-    id: subscribers.length + 1,
-    ts: new Date().toISOString(),
-    email: cleanEmail,
-  };
-  subscribers.push(subscriber);
-  await fs.writeFile(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2), "utf-8");
-
-  return NextResponse.json({ ok: true, id: subscriber.id, existing: false });
+  return NextResponse.json({ ok: true, id, existing });
 }

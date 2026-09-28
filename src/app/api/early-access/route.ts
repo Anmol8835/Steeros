@@ -1,20 +1,11 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import { addEntry, type StoreEntry } from "@/lib/entries-store";
 
 /**
- * Early access signup. Validates the email, dedupes on email, persists
- * to early-access.json on disk. Mirrors the same pattern as the
- * newsletter and lead endpoints.
+ * Early access signup. Validates the email, dedupes on email, and
+ * persists via the shared store: a private Vercel Blob in production,
+ * early-access.json on disk in local dev.
  */
-
-const WAITLIST_FILE = path.join(process.cwd(), "early-access.json");
-
-type Entry = {
-  id: number;
-  ts: string;
-  email: string;
-};
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -31,25 +22,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
-  let entries: Entry[] = [];
-  try {
-    entries = JSON.parse(await fs.readFile(WAITLIST_FILE, "utf-8"));
-  } catch {
-    entries = [];
-  }
+  const { id, existing } = await addEntry<StoreEntry>(
+    "early-access.json",
+    cleanEmail,
+    (entryId, ts) => ({ id: entryId, ts, email: cleanEmail }),
+  );
 
-  const existing = entries.find((e) => e.email === cleanEmail);
-  if (existing) {
-    return NextResponse.json({ ok: true, id: existing.id, existing: true });
-  }
-
-  const entry: Entry = {
-    id: entries.length + 1,
-    ts: new Date().toISOString(),
-    email: cleanEmail,
-  };
-  entries.push(entry);
-  await fs.writeFile(WAITLIST_FILE, JSON.stringify(entries, null, 2), "utf-8");
-
-  return NextResponse.json({ ok: true, id: entry.id, existing: false });
+  return NextResponse.json({ ok: true, id, existing });
 }
