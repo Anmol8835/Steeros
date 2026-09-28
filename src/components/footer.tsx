@@ -13,6 +13,7 @@ const PRODUCT_LINKS = [
   { label: "Tiers", href: "#tiers" },
   { label: "Calculator", href: "#calculator" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Early access", href: "/early-access" },
 ];
 
 const RESOURCE_LINKS = [

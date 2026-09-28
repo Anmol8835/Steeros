@@ -2,12 +2,14 @@
 
 import { useScroll, useMotionValueEvent } from "motion/react";
 import { useState } from "react";
+import Link from "next/link";
 import { HoneycombLogo } from "@/components/ui/honeycomb-logo";
 
-const LINKS = [
+const LINKS: { label: string; href: string; highlight?: boolean }[] = [
   { label: "How it routes", href: "#pipeline" },
   { label: "Tiers", href: "#tiers" },
   { label: "Pricing", href: "#pricing" },
+  { label: "Early access", href: "/early-access", highlight: true },
 ];
 
 export function Nav() {
@@ -36,13 +38,17 @@ export function Nav() {
 
           <div className="hidden items-center gap-8 md:flex">
             {LINKS.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
-                className="text-base font-medium text-muted transition-colors duration-200 hover:text-ink"
+                className={
+                  l.highlight
+                    ? "rounded-full bg-burgundy-tint px-4 py-1.5 text-base font-medium text-burgundy transition-colors duration-200 hover:bg-burgundy/15"
+                    : "text-base font-medium text-muted transition-colors duration-200 hover:text-ink"
+                }
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
           </div>
 
