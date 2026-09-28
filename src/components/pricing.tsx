@@ -1,23 +1,16 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { DownloadSimple, Check } from "@phosphor-icons/react";
+import Link from "next/link";
+import { Check } from "@phosphor-icons/react";
 import { Magnetic } from "@/components/ui/magnetic";
 
 /**
- * Two ways in. The free config download mirrors the real Steeros
- * /api/free/download endpoint. The enterprise form mirrors the real
- * /api/enterprise/lead endpoint (name, email, company) and forwards
- * to Formspree. On a white page, the enterprise card is the one
- * burgundy field besides the stat band.
+ * Two ways in. The early access card routes to /early-access; the
+ * enterprise form mirrors the real /api/enterprise/lead endpoint
+ * (name, email, company) and forwards to Formspree. On a white page,
+ * the enterprise card is the one burgundy field besides the stat band.
  */
-
-const FREE_ITEMS = [
-  "Working config template, routes.free.yaml",
-  "One-line localhost proxy",
-  "Cost ceilings you edit by hand",
-  "Enough for a solo dev or a small team pilot",
-];
 
 const ENTERPRISE_ITEMS = [
   "Every agent: Claude Code, Cursor, Copilot, Gemini CLI",
@@ -96,7 +89,7 @@ function LeadForm() {
       </div>
       <div className="flex flex-col gap-2">
         <label htmlFor="lead-email" className="text-sm font-medium text-white">
-          Work email
+          Email
         </label>
         <input
           id="lead-email"
@@ -105,7 +98,7 @@ function LeadForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="ada@company.dev"
+          placeholder="ada@example.com"
           className={inputClass}
         />
         <p className="text-xs text-white/75">
@@ -154,33 +147,25 @@ export function Pricing() {
       </h2>
 
       <div className="mt-11 grid gap-6 lg:grid-cols-2">
-        {/* free */}
+        {/* early access */}
         <div className="flex h-full flex-col rounded-2xl border border-line bg-white p-8 shadow-[0_2px_4px_rgba(34,22,26,0.04),0_24px_48px_-24px_rgba(34,22,26,0.16)] md:p-10">
           <div className="flex items-baseline justify-between">
-            <span className="text-sm font-medium text-muted">Steeros Free</span>
-            <span className="text-4xl font-bold tracking-tight tabular-nums text-ink">
-              25k
-              <span className="ml-1.5 text-sm font-normal text-faint">req/mo</span>
-            </span>
+            <span className="text-sm font-medium text-muted">Early access</span>
+            <span className="text-sm text-faint">Invite-only</span>
           </div>
-          <ul className="mt-7 flex flex-col gap-3">
-            {FREE_ITEMS.map((f) => (
-              <li key={f} className="flex items-start gap-3 text-base text-muted">
-                <Check size={14} weight="bold" className="mt-1 shrink-0 text-burgundy" />
-                {f}
-              </li>
-            ))}
-          </ul>
+          <p className="mt-7 text-base leading-relaxed text-muted">
+            One proxy that routes every prompt to the cheapest model
+            that can handle it — up to 85% lower spend, same quality.
+            Drop your email and we’ll send an invite when a slot opens.
+          </p>
           <div className="mt-auto pt-8">
             <Magnetic strength={0.15}>
-              <a
-                href="/api/config"
-                download
-                className="flex h-12 items-center justify-center gap-2 rounded-full border border-line bg-white px-7 text-sm font-medium text-ink transition-colors duration-200 hover:border-burgundy hover:text-burgundy active:translate-y-px"
+              <Link
+                href="/early-access"
+                className="flex h-12 items-center justify-center rounded-full bg-burgundy px-7 text-sm font-medium text-white transition-all duration-200 hover:shadow-[0_8px_20px_-8px_rgba(138,34,51,0.6)] active:translate-y-px"
               >
-                <DownloadSimple size={16} weight="bold" />
-                Get the free config
-              </a>
+                Get early access
+              </Link>
             </Magnetic>
           </div>
         </div>

@@ -58,7 +58,7 @@ export function EarlyAccessForm() {
   return (
     <form onSubmit={onSubmit} className="mt-8 flex flex-col gap-3" noValidate>
       <label htmlFor="early-access-email" className="text-sm font-medium text-ink">
-        Work email
+        Email
       </label>
       <input
         id="early-access-email"
@@ -67,7 +67,7 @@ export function EarlyAccessForm() {
         required
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="ada@company.dev"
+        placeholder="ada@example.com"
         className="w-full rounded-xl border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-faint outline-none transition-colors duration-200 focus:border-burgundy"
       />
       {state === "error" && (
