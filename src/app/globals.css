@@ -1,26 +1,189 @@
 @import "tailwindcss";
 
+/* ============================================================
+   STEEROS — design tokens
+   Direction: white editorial. Majority white page, one neutral
+   burgundy accent (#8A2233, the brand's own token), soft corners
+   everywhere.
+
+   Palette
+     white           #ffffff  page field (majority)
+     mist            #f7f4f2  rare alternate section tint
+     line            #e9e2de  hairlines, borders
+     ink             #22161a  text
+     muted           #6f636a  secondary text
+     faint           #9a8f96  tertiary text
+     burgundy        #8a2233  the single accent (alpha variants only)
+
+   Type: Space Grotesk everywhere. Space Mono for code, prices,
+   and log data.
+
+   Radius (soft, concentric): cards 16px · nested 12px · buttons pill
+   Shadows: tinted to ink, never pure black.
+   Z-index scale: content 0 · panels 10 · nav 30
+   ============================================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #ffffff;
+  --mist: #f7f4f2;
+  --line: #e9e2de;
+  --ink: #22161a;
+  --muted: #57505a; /* 7.7:1 on white, up from #6f636a (5.4:1) */
+  --faint: #6a5f65; /* 6.1:1 on white, up from #7a6f75 (5.0:1) */
+  --burgundy: #8a2233;
+  --burgundy-tint: rgba(138, 34, 51, 0.07);
+  --burgundy-faint: rgba(138, 34, 51, 0.55);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-mist: var(--mist);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-tint: var(--burgundy-tint);
+  --font-sans: var(--font-grotesk);
+  --font-display: var(--font-grotesk);
+  --font-mono: var(--font-space-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* hero display sizes, the one documented deviation from the scale */
+  --text-hero: 2.7rem;
+  --text-hero-lg: 4.4rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* white from the first paint, no flash */
+html {
+  background: var(--bg);
+  color-scheme: light;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-grotesk), system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* even line breaks: pretty paragraphs everywhere (balance is applied
+   per heading, never inside bordered cards) */
+@layer base {
+  p,
+  li {
+    text-wrap: pretty;
+  }
+}
+
+::selection {
+  background: var(--burgundy);
+  color: #fff;
+}
+
+/* visible keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--burgundy);
+  outline-offset: 3px;
+}
+
+/* thin light scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* ---------- keyframes ---------- */
+
+@keyframes caret {
+  0%, 45% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.animate-caret {
+  animation: caret 0.85s steps(1) infinite;
+}
+
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.animate-live {
+  animation: live-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes route-dash {
+  to { stroke-dashoffset: -26; }
+}
+.route-flow {
+  stroke-dasharray: 6 7;
+  animation: route-dash 6s linear infinite;
+}
+
+/* ---------- range inputs (calculator) ---------- */
+
+input[type="range"].steer-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type="range"].steer-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+input[type="range"].steer-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--burgundy);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--burgundy);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+input[type="range"].steer-range::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+input[type="range"].steer-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line);
+}
+input[type="range"].steer-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--burgundy);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 1px var(--burgundy);
+}
+input[type="range"].steer-range:focus-visible {
+  outline: 2px solid var(--burgundy);
+  outline-offset: 4px;
+  border-radius: 999px;
+}
+
+/* ---------- reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-caret,
+  .animate-live,
+  .route-flow {
+    animation: none;
+  }
 }
