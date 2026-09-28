@@ -33,16 +33,14 @@ No per-section fades, no marquee, no hover-everything. Everything collapses to s
 ## API routes
 
 - `GET /api/config` — downloads `routes.free.yaml` (mirrors the real Steeros free-config endpoint)
-- `POST /api/lead` — enterprise lead capture, dedupes on email
-- `POST /api/newsletter` — newsletter signup, dedupes on email
-- `POST /api/early-access` — early access waitlist, dedupes on email
+- `POST /api/lead` — enterprise lead capture
+- `POST /api/newsletter` — newsletter signup
+- `POST /api/early-access` — early access waitlist
 
-All three signup endpoints share `src/lib/entries-store.ts`:
+All three signup endpoints validate the email and forward to **Formspree** via `src/lib/formspree.ts`, which emails each submission to the Steeros inbox. No database:
 
-- **With `BLOB_READ_WRITE_TOKEN` set** (Vercel): entries persist to a **private Vercel Blob** (same JSON shape). Create a blob store in the Vercel dashboard (Storage → Blob), then set `BLOB_READ_WRITE_TOKEN` in Project → Settings → Environment Variables and redeploy.
-- **Without the token** (local dev): entries fall back to JSON files in the project root (`leads.json`, `newsletter.json`, `early-access.json` — gitignored).
-
-To see signups in production, open the blob store in the Vercel dashboard (Storage → Blob) — each file holds the full JSON array. Serverless filesystems are ephemeral, so never rely on the local-file fallback in production.
+- Each submission carries a `source` field (`early-access` / `newsletter` / `lead`) and a `_subject` for a readable email subject line, so one Formspree form serves all three.
+- `FORMSPREE_ENDPOINT` (defaults to the production form, `https://formspree.io/f/xjykjkyd`) overrides the form. Set it in Vercel → Settings → Environment Variables only if you swap forms.
 
 ## Footer
 

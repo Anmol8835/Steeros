@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 };
 
 /**
- * Early access landing. A single email field; submissions land in
- * early-access.json via /api/early-access.
+ * Early access landing. A single email field; submissions are emailed
+ * via Formspree through /api/early-access.
  */
 export default function EarlyAccessPage() {
   return (

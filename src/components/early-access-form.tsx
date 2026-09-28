@@ -4,8 +4,8 @@ import { useState, type FormEvent } from "react";
 import { Check } from "@phosphor-icons/react";
 
 /**
- * Early access signup form. Posts to /api/early-access, which dedupes
- * on email and persists to early-access.json.
+ * Early access signup form. Posts to /api/early-access, which forwards
+ * the email to Formspree.
  */
 
 type FormState = "idle" | "loading" | "success" | "error";

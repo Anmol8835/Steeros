@@ -4,8 +4,7 @@ import { useState, type FormEvent } from "react";
 
 /**
  * Footer: newsletter signup, link columns, legal row. The newsletter
- * posts to /api/newsletter (dedupes on email, persists to
- * newsletter.json).
+ * posts to /api/newsletter, which forwards the email to Formspree.
  */
 
 const PRODUCT_LINKS = [

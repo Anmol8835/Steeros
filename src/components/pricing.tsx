@@ -7,9 +7,9 @@ import { Magnetic } from "@/components/ui/magnetic";
 /**
  * Two ways in. The free config download mirrors the real Steeros
  * /api/free/download endpoint. The enterprise form mirrors the real
- * /api/enterprise/lead endpoint (name, email, company -> leads.json).
- * On a white page, the enterprise card is the one burgundy field
- * besides the stat band.
+ * /api/enterprise/lead endpoint (name, email, company) and forwards
+ * to Formspree. On a white page, the enterprise card is the one
+ * burgundy field besides the stat band.
  */
 
 const FREE_ITEMS = [

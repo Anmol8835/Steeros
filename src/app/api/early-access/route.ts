@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
-import { addEntry, type StoreEntry } from "@/lib/entries-store";
+import { submitToFormspree } from "@/lib/formspree";
 
 /**
- * Early access signup. Validates the email, dedupes on email, and
- * persists via the shared store: a private Vercel Blob in production,
- * early-access.json on disk in local dev.
+ * Early access signup. Validates the email and forwards to Formspree,
+ * which emails the submission to the Steeros inbox.
  */
 
 export async function POST(request: Request) {
@@ -22,11 +21,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
-  const { id, existing } = await addEntry<StoreEntry>(
-    "early-access.json",
-    cleanEmail,
-    (entryId, ts) => ({ id: entryId, ts, email: cleanEmail }),
-  );
+  try {
+    await submitToFormspree({
+      email: cleanEmail,
+      source: "early-access",
+      _subject: `Early access signup: ${cleanEmail}`,
+    });
+  } catch {
+    return NextResponse.json({ ok: false, error: "server_error" }, { status: 500 });
+  }
 
-  return NextResponse.json({ ok: true, id, existing });
+  return NextResponse.json({ ok: true });
 }
