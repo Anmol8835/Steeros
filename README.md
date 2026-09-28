@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Steeros — landing site
 
-## Getting Started
+Sell-worthy landing page for Steeros: token-aware LLM routing. Every prompt is classified and sent to the cheapest model that can handle it, so spend and carbon fall together.
 
-First, run the development server:
+Built on the real product facts from the `Steeros` and `llm_api_server` repos: tier ceilings, pilot cost data, the RouteLLM study claim, cache pricing rules, and the classify / route / convert / account pipeline.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Design direction
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**White editorial.** Majority white page, one neutral burgundy accent (`#8A2233`, the brand's own token, alpha variants only), one typeface (Space Grotesk everywhere), soft corners throughout (cards 16px, nested 12px, buttons pill).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Burgundy appears as a field in exactly two places: the full-bleed stat band and the enterprise card
+- Muted green appears once, in the carbon row, because it states a real product property
+- Sequence numbers appear only in the pipeline, because that content really is a sequence
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
+Next.js 16 (App Router, Turbopack), TypeScript, Tailwind v4. [Motion](https://motion.dev) for UI animation, [GSAP](https://gsap.com) + ScrollTrigger for the scroll setpieces. Space Grotesk via `next/font`.
 
-To learn more about Next.js, take a look at the following resources:
+## Motion inventory
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Section | Motion | Why |
+|---|---|---|
+| Hero | one orchestrated load sequence + live console slip | the single entrance moment; product proof |
+| Stat band | count-up numerals | the claim lands as measured |
+| Problem | scroll-scrubbed word reveal | the Ferrari line lands as you read it |
+| Pipeline | GSAP pinned horizontal pan | the four stages are a linear story |
+| Tiers | GSAP sticky stack | the ladder is a hierarchy |
+| Calculator | spring-animated numbers | feedback on user input |
+| Final CTA | one masked reveal + magnetic button | conversion moment |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+No per-section fades, no marquee, no hover-everything. Everything collapses to static under `prefers-reduced-motion`; GSAP sections fall back to vertical stacks. `html` and `body` are white from the first paint, no flash.
 
-## Deploy on Vercel
+## API routes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `GET /api/config` — downloads `routes.free.yaml` (mirrors the real Steeros free-config endpoint)
+- `POST /api/lead` — enterprise lead capture, persists to `leads.json` (gitignored), dedupes on email
+- `POST /api/newsletter` — newsletter signup, persists to `newsletter.json` (gitignored), dedupes on email
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Footer
+
+Structured like the Amini.ai footer: closing CTA, newsletter signup, link columns (Product / Resources / Company), legal row with real `/terms` and `/privacy` pages. The Socials column is intentionally absent until Steeros has public profiles.
+# Steeros
