@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatedNumber } from "@/components/ui/animated-number";
+import { Calligraph } from "calligraph";
 
 /**
  * Interactive savings model. Costs are the real pilot numbers from the
@@ -34,7 +34,7 @@ export function Calculator() {
 
   return (
     <section id="calculator" className="relative mx-auto max-w-[1200px] px-5 py-20 md:px-8 md:py-28">
-      <div className="grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
         {/* controls */}
         <div>
           <h2 className="max-w-[18ch] text-4xl font-bold leading-[1.1] tracking-tight text-balance text-ink md:text-6xl">
@@ -87,18 +87,21 @@ export function Calculator() {
           </div>
         </div>
 
-        {/* the results card */}
-        <div className="relative overflow-hidden rounded-2xl border border-line bg-white shadow-[0_2px_4px_rgba(34,22,26,0.04),0_24px_48px_-24px_rgba(34,22,26,0.16)]">
-          <div className="flex flex-col gap-6 p-8 md:p-10">
-            <div className="flex items-baseline justify-between border-b border-line pb-6">
+        {/* the results card — the one ink field on the white page */}
+        <div className="relative w-full max-w-[26rem] overflow-hidden rounded-2xl border border-white/10 bg-ink shadow-[0_2px_4px_rgba(34,22,26,0.04),0_24px_48px_-24px_rgba(34,22,26,0.28)] lg:justify-self-end">
+          <div className="flex h-full flex-col gap-6 p-7 md:p-8">
+            <div className="flex items-baseline justify-between border-b border-white/10 pb-6">
               <div>
-                <div className="text-xs tracking-wide text-faint">without Steeros</div>
-                <div className="mt-2 text-4xl font-bold tracking-tight tabular-nums text-ink md:text-5xl">
-                  <AnimatedNumber value={before} format={money} />
-                  <span className="ml-1 text-sm font-medium text-faint">/mo</span>
+                <div className="text-xs tracking-wide text-white/50">without Steeros</div>
+                {/* leading-[1.4]: the slot mask fades 0.25em at the top and
+                    bottom of each digit, so a tight line box leaks the
+                    neighbouring digits as smudges */}
+                <div className="mt-2 text-3xl font-bold leading-[1.4] tracking-tight tabular-nums text-white md:text-4xl">
+                  <Calligraph variant="slots">{money(before)}</Calligraph>
+                  <span className="ml-1 text-sm font-medium text-white/50">/mo</span>
                 </div>
               </div>
-              <div className="text-right text-xs leading-relaxed text-faint">
+              <div className="text-right text-xs leading-relaxed text-white/50">
                 {monthly.toLocaleString("en-US")} requests
                 <br />
                 all at flagship prices
@@ -107,30 +110,30 @@ export function Calculator() {
 
             <div className="flex items-baseline justify-between">
               <div>
-                <div className="text-xs tracking-wide text-faint">with Steeros</div>
-                <div className="mt-2 text-4xl font-bold tracking-tight tabular-nums text-burgundy md:text-5xl">
-                  <AnimatedNumber value={after} format={money} />
-                  <span className="ml-1 text-sm font-medium text-faint">/mo</span>
+                <div className="text-xs tracking-wide text-white/50">with Steeros</div>
+                <div className="mt-2 text-3xl font-bold leading-[1.4] tracking-tight tabular-nums text-burgundy-on-ink md:text-4xl">
+                  <Calligraph variant="slots">{money(after)}</Calligraph>
+                  <span className="ml-1 text-sm font-medium text-white/50">/mo</span>
                 </div>
               </div>
-              <div className="rounded-xl border border-burgundy/30 bg-burgundy-tint px-3.5 py-1.5 text-lg font-bold tabular-nums text-burgundy">
+              <div className="rounded-xl border border-white/15 bg-white/10 px-3.5 py-1.5 text-lg font-bold tabular-nums text-burgundy-on-ink">
                 −{pct}%
               </div>
             </div>
 
-            <div className="rounded-xl border border-line bg-mist px-4 py-3.5">
+            <div className="rounded-xl border border-white/10 bg-white/10 px-4 py-3.5">
               <div className="flex items-baseline justify-between">
-                <span className="text-sm text-muted">Kept in your budget</span>
-                <span className="text-2xl font-bold tracking-tight tabular-nums text-burgundy">
-                  <AnimatedNumber value={saved} format={money} />
-                  <span className="ml-1 text-sm font-medium text-faint">
+                <span className="text-sm text-white/70">Kept in your budget</span>
+                <span className="text-2xl font-bold tracking-tight tabular-nums text-burgundy-on-ink">
+                  <Calligraph variant="slots">{money(saved)}</Calligraph>
+                  <span className="ml-1 text-sm font-medium text-white/50">
                     every month
                   </span>
                 </span>
               </div>
             </div>
 
-            <p className="text-sm leading-relaxed text-muted">
+            <p className="mt-auto text-sm leading-relaxed text-white/70">
               Same output, roughly {pct}% fewer flagship tokens, so energy
               falls with the bill.
             </p>

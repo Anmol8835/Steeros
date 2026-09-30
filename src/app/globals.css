@@ -14,6 +14,8 @@
      muted           #6f636a  secondary text
      faint           #9a8f96  tertiary text
      burgundy        #8a2233  the single accent (alpha variants only)
+     burgundy-on-ink #e7a9b3  accent lifted for ink surfaces — footer,
+                              calculator card (9:1 on ink)
 
    Type: Space Grotesk everywhere. Space Mono for code, prices,
    and log data.
@@ -33,6 +35,7 @@
   --burgundy: #8a2233;
   --burgundy-tint: rgba(138, 34, 51, 0.07);
   --burgundy-faint: rgba(138, 34, 51, 0.55);
+  --burgundy-on-ink: #e7a9b3;
 }
 
 @theme inline {
@@ -44,6 +47,7 @@
   --color-faint: var(--faint);
   --color-burgundy: var(--burgundy);
   --color-burgundy-tint: var(--burgundy-tint);
+  --color-burgundy-on-ink: var(--burgundy-on-ink);
   --font-sans: var(--font-grotesk);
   --font-display: var(--font-grotesk);
   --font-mono: var(--font-space-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -84,6 +88,11 @@ body {
 :focus-visible {
   outline: 2px solid var(--burgundy);
   outline-offset: 3px;
+}
+
+/* burgundy is too dim on the ink footer; lift the ring there */
+#footer :focus-visible {
+  outline-color: rgba(255, 255, 255, 0.85);
 }
 
 /* thin light scrollbar */

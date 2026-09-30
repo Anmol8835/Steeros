@@ -50,7 +50,7 @@ const TIERS: Tier[] = [
 function TierCard({ tier }: { tier: Tier }) {
   return (
     <div
-      className={`relative rounded-2xl border bg-white p-6 shadow-[0_2px_4px_rgba(34,22,26,0.04),0_24px_48px_-24px_rgba(34,22,26,0.16)] md:p-8 ${
+      className={`relative flex h-full flex-col rounded-2xl border bg-white p-5 shadow-[0_2px_4px_rgba(34,22,26,0.04),0_24px_48px_-24px_rgba(34,22,26,0.16)] md:p-6 ${
         tier.featured ? "border-burgundy/40" : "border-line"
       }`}
     >
@@ -59,16 +59,17 @@ function TierCard({ tier }: { tier: Tier }) {
         <div aria-hidden className="absolute inset-x-0 top-0 h-1 rounded-t-2xl bg-burgundy" />
       )}
 
-      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h3 className="text-2xl font-bold tracking-tight text-ink md:text-3xl">
-            {tier.tagline}
-          </h3>
-          <div className="mt-2.5 text-sm text-muted">{tier.name} tier</div>
-          <div className="mt-0.5 text-xs tracking-wide text-faint">{tier.ceilingLabel}</div>
-        </div>
+      <div>
+        <h3 className="text-lg font-bold tracking-tight text-ink md:text-xl">
+          {tier.tagline}
+        </h3>
+        <div className="mt-1 text-sm text-muted">{tier.name} tier</div>
+      </div>
+
+      <div className="mt-5">
+        <div className="text-xs tracking-wide text-faint">{tier.ceilingLabel}</div>
         <div
-          className={`shrink-0 text-5xl font-bold leading-none tracking-tight tabular-nums md:text-6xl ${
+          className={`mt-1 text-3xl font-bold leading-none tracking-tight tabular-nums md:text-4xl ${
             tier.featured ? "text-burgundy" : "text-ink"
           }`}
         >
@@ -76,22 +77,22 @@ function TierCard({ tier }: { tier: Tier }) {
         </div>
       </div>
 
-      <ul className="mt-6 grid gap-x-10 gap-y-2.5 sm:grid-cols-2 md:mt-8">
+      <ul className="mt-5 flex flex-col gap-2 border-t border-line pt-4">
         {tier.handles.map((h) => (
-          <li key={h} className="flex items-center gap-3 text-base text-muted">
+          <li key={h} className="flex items-start gap-2.5 text-sm text-muted">
             <Check
               size={14}
               weight="bold"
-              className={tier.featured ? "text-burgundy" : "text-line"}
+              className={`mt-[3px] shrink-0 ${
+                tier.featured ? "text-burgundy" : "text-line"
+              }`}
             />
             {h}
           </li>
         ))}
       </ul>
 
-      <p className="mt-5 border-t border-line pt-3 text-sm text-faint">
-        {tier.share}
-      </p>
+      <p className="mt-auto pt-4 text-xs text-faint">{tier.share}</p>
     </div>
   );
 }
@@ -111,13 +112,11 @@ export function Tiers() {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-5 py-4 md:px-8 md:py-6">
-        {TIERS.map((t) => (
-          <div key={t.name} className="mt-4 first:mt-0">
-            <div className="w-full">
-              <TierCard tier={t} />
-            </div>
-          </div>
-        ))}
+        <div className="grid gap-4 md:grid-cols-3 md:gap-5">
+          {TIERS.map((t) => (
+            <TierCard key={t.name} tier={t} />
+          ))}
+        </div>
       </div>
     </section>
   );
