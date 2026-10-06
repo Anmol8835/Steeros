@@ -27,13 +27,13 @@ export function Nav() {
             : "border-b border-transparent bg-transparent"
         }`}
       >
-        <nav className="mx-auto flex h-16 max-w-[1200px] items-center justify-between px-5 md:px-8">
+        <nav className="flex h-16 items-center justify-between px-5 md:px-8">
           <a
             href="#top"
-            className="flex items-center gap-2.5 text-2xl font-bold tracking-wider text-ink"
+            aria-label="Steeros home"
+            className="flex items-center text-ink"
           >
             <HoneycombLogo className="h-[26px] w-auto shrink-0" />
-            STEEROS
           </a>
 
           <div className="hidden items-center gap-8 md:flex">

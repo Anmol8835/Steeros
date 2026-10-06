@@ -17,8 +17,8 @@
      burgundy-on-ink #e7a9b3  accent lifted for ink surfaces — footer,
                               calculator card (9:1 on ink)
 
-   Type: Space Grotesk everywhere. Space Mono for code, prices,
-   and log data.
+   Type: Geist everywhere. Geist Mono for code, prices, and log
+   data. Hedvig Letters Serif only for the hero headline.
 
    Radius (soft, concentric): cards 16px · nested 12px · buttons pill
    Shadows: tinted to ink, never pure black.
@@ -48,9 +48,9 @@
   --color-burgundy: var(--burgundy);
   --color-burgundy-tint: var(--burgundy-tint);
   --color-burgundy-on-ink: var(--burgundy-on-ink);
-  --font-sans: var(--font-grotesk);
-  --font-display: var(--font-grotesk);
-  --font-mono: var(--font-space-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-hedvig-serif);
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   /* hero display sizes, the one documented deviation from the scale */
   --text-hero: 2.7rem;
   --text-hero-lg: 4.4rem;
@@ -65,7 +65,7 @@ html {
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-grotesk), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
 }

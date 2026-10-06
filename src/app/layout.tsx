@@ -1,18 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Space_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { Geist, Geist_Mono, Hedvig_Letters_Serif } from "next/font/google";
 import "./globals.css";
 
-const grotesk = Space_Grotesk({
+const geistSans = Geist({
   subsets: ["latin"],
-  variable: "--font-grotesk",
+  variable: "--font-geist-sans",
   display: "swap",
 });
 
-const mono = Space_Mono({
+const geistMono = Geist_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-space-mono",
+  variable: "--font-geist-mono",
+  display: "swap",
+});
+
+const hedvigSerif = Hedvig_Letters_Serif({
+  subsets: ["latin"],
+  variable: "--font-hedvig-serif",
   display: "swap",
 });
 
@@ -30,11 +34,11 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${grotesk.variable} ${mono.variable}`}>
-      <body className="bg-bg text-ink font-sans antialiased">
-        {children}
-        <Analytics />
-      </body>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable} ${hedvigSerif.variable}`}
+    >
+      <body className="bg-bg text-ink font-sans antialiased">{children}</body>
     </html>
   );
 }

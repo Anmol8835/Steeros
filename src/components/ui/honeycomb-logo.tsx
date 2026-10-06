@@ -1,7 +1,8 @@
 /**
  * Steeros brand mark: the five-cell honeycomb — a routing mesh.
  * Fills with currentColor so it inherits the surrounding text tone
- * (ink in the nav). Decorative; the wordmark carries the name.
+ * (ink in the nav). Decorative: it carries no name of its own, so a
+ * link with no other content needs its own aria-label.
  *
  * Pass x/y/width/height when nesting inside another <svg> scene.
  */

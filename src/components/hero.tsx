@@ -7,7 +7,7 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
  * Hero. One orchestrated load sequence, nothing else animates on this
- * section. Space Grotesk carries the headline. White field, one
+ * section. Hedvig Letters Serif carries the headline. White field, one
  * burgundy accent.
  */
 export function Hero() {
@@ -24,8 +24,8 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-[1200px] items-start px-5 pb-10 pt-20 md:px-8 md:pt-24">
         {/* copy */}
         <div>
-          <h1 className="text-hero font-bold leading-[1.08] tracking-tight text-ink sm:text-6xl lg:text-hero-lg">
-            <span className="block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+          <h1 className="text-hero font-display font-normal leading-[1.08] tracking-tight text-ink sm:text-6xl lg:text-hero-lg">
+            <span className="block overflow-hidden pb-[0.25em] -mb-[0.25em]">
               <motion.span
                 className="block"
                 initial={reduce ? false : { y: "112%" }}
@@ -35,7 +35,7 @@ export function Hero() {
                 Every prompt pays
               </motion.span>
             </span>
-            <span className="block overflow-hidden pb-[0.14em] -mb-[0.14em]">
+            <span className="block overflow-hidden pb-[0.25em] -mb-[0.25em]">
               <motion.span
                 className="block"
                 initial={reduce ? false : { y: "112%" }}
