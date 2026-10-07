@@ -4,6 +4,7 @@ import { useScroll, useMotionValueEvent } from "motion/react";
 import { useState } from "react";
 import Link from "next/link";
 import { HoneycombLogo } from "@/components/ui/honeycomb-logo";
+import { NavAuth } from "@/components/nav-auth";
 
 const LINKS: { label: string; href: string; highlight?: boolean }[] = [
   { label: "How it routes", href: "#pipeline" },
@@ -50,6 +51,7 @@ export function Nav() {
                 {l.label}
               </Link>
             ))}
+            <NavAuth />
           </div>
 
           <a
