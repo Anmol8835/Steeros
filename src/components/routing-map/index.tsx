@@ -1,5 +1,5 @@
 import { HARNESS_LOGOS, LLM_LOGOS, type Logo } from "@/components/routing-map/logos";
-import { HoneycombLogo } from "@/components/ui/honeycomb-logo";
+import { HoneycombLogo, HONEYCOMB_ASPECT } from "@/components/ui/honeycomb-logo";
 
 /**
  * The routing diagram: your harness on the left threads every request
@@ -124,7 +124,7 @@ function Label({
 
 function SteerosNode({ cx, cy, r, mark }: { cx: number; cy: number; r: number; mark: number }) {
   const w = mark;
-  const h = (mark * 170) / 186;
+  const h = mark * HONEYCOMB_ASPECT;
   return (
     <g>
       {/* soft burgundy halo */}

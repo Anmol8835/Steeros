@@ -1,5 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="14" fill="#ffffff"/>
   <rect width="64" height="64" rx="14" fill="none" stroke="#e9e2de" stroke-width="2"/>
-  <text x="32" y="43" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700" fill="#8a2233" text-anchor="middle">S</text>
+  <!-- Honeycomb mark, same geometry as components/ui/honeycomb-logo.tsx;
+       content box x[-283.91,283.91] y[-118.25,476.25], centered on (0,179). -->
+  <g fill="#8a2233" transform="translate(32 32) scale(0.081) translate(0 -179)">
+    <polygon points="0,-118.25 102.41,-59.13 102.41,59.13 0,118.25 -102.41,59.13 -102.41,-59.13" />
+    <polygon points="-181.5,25.75 -79.09,84.88 -79.09,203.13 -181.5,262.25 -283.91,203.13 -283.91,84.88" />
+    <polygon points="181.5,25.75 283.91,84.88 283.91,203.13 181.5,262.25 79.09,203.13 79.09,84.88" />
+    <polygon points="-110,239.75 -7.59,298.88 -7.59,417.13 -110,476.25 -212.41,417.13 -212.41,298.88" />
+    <polygon points="110,239.75 212.41,298.88 212.41,417.13 110,476.25 7.59,417.13 7.59,298.88" />
+  </g>
 </svg>
