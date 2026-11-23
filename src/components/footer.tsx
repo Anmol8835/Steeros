@@ -1,10 +1,7 @@
-"use client";
-
-import { useState, type FormEvent } from "react";
+import { ParticleWordmark } from "@/components/ui/particle-wordmark";
 
 /**
- * Footer: newsletter signup, link columns, legal row. The newsletter
- * posts to /api/newsletter, which forwards the email to Formspree.
+ * Footer: link columns, legal row, and the particle wordmark at the foot.
  */
 
 const PRODUCT_LINKS = [
@@ -27,114 +24,11 @@ const COMPANY_LINKS = [
   { label: "hello@steeros.ai", href: "mailto:hello@steeros.ai" },
 ];
 
-type FormState = "idle" | "loading" | "success" | "error";
-
-function Newsletter() {
-  const [state, setState] = useState<FormState>("idle");
-  const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (state === "loading") return;
-    setState("loading");
-    setError("");
-    try {
-      const res = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        setError(
-          data.error === "invalid_email"
-            ? "That email doesn't look right. Check it and try again."
-            : "Something went wrong on our side. Try again.",
-        );
-        setState("error");
-        return;
-      }
-      setState("success");
-    } catch {
-      setError("Network error. Is the dev server still running?");
-      setState("error");
-    }
-  };
-
-  if (state === "success") {
-    return (
-      <div className="flex h-full flex-col justify-center rounded-2xl border border-white/15 bg-white/10 px-6 py-6">
-        <p className="text-lg font-bold text-white">Subscribed.</p>
-        <p className="mt-1.5 text-sm leading-relaxed text-white/70">
-          You’ll get the next dispatch note. Unsubscribe anytime.
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-3" noValidate>
-      <label htmlFor="newsletter-email" className="text-sm font-medium text-white">
-        Email
-      </label>
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <input
-          id="newsletter-email"
-          name="email"
-          type="email"
-          required
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="ada@example.com"
-          className="w-full rounded-xl border border-white/30 bg-white/10 px-4 py-3 text-base text-white placeholder:text-white/50 outline-none transition-colors duration-200 focus:border-white"
-        />
-        <button
-          type="submit"
-          disabled={state === "loading"}
-          className="flex h-12 shrink-0 items-center justify-center rounded-full bg-burgundy px-7 text-sm font-medium text-white transition-all duration-200 hover:shadow-[0_8px_20px_-8px_rgba(138,34,51,0.6)] active:translate-y-px disabled:opacity-60"
-        >
-          {state === "loading" ? "Subscribing..." : "Subscribe"}
-        </button>
-      </div>
-      {state === "error" && (
-        <p role="alert" className="text-sm text-burgundy-on-ink">
-          {error}
-        </p>
-      )}
-      <p className="text-xs leading-relaxed text-white/50">
-        No drip campaigns. Unsubscribe anytime. By subscribing you agree to
-        our{" "}
-        <a href="/terms" className="text-burgundy-on-ink underline underline-offset-2">
-          Terms
-        </a>
-        .
-      </p>
-    </form>
-  );
-}
-
 export function Footer() {
   return (
-    <footer id="footer" className="border-t border-white/10 bg-ink">
-      {/* newsletter */}
-      <div>
-        <div className="mx-auto grid max-w-[1200px] gap-8 px-5 py-12 md:grid-cols-2 md:items-center md:gap-16 md:px-8">
-          <div>
-            <h3 className="text-2xl font-bold tracking-tight text-white md:text-3xl">
-              Subscribe to our newsletter
-            </h3>
-            <p className="mt-3 max-w-[46ch] text-base leading-relaxed text-white/70">
-              One note a month on routing, model pricing, and keeping the
-              burn down. No noise.
-            </p>
-          </div>
-          <Newsletter />
-        </div>
-      </div>
-
+    <footer id="footer" className="border-t border-white/10 bg-black">
       {/* link columns */}
-      <div className="border-t border-white/10">
+      <div>
         <div className="mx-auto grid max-w-[1200px] gap-10 px-5 py-12 sm:grid-cols-3 md:px-8">
           <div>
             <h3 className="text-sm font-bold text-white">Product</h3>
@@ -195,6 +89,8 @@ export function Footer() {
           </span>
         </div>
       </div>
+
+      <ParticleWordmark />
     </footer>
   );
 }
