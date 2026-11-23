@@ -6,7 +6,7 @@ Built on the real product facts from the `Steeros` and `llm_api_server` repos: t
 
 ## Design direction
 
-**White editorial.** Majority white page, one neutral burgundy accent (`#8A2233`, the brand's own token, alpha variants only), one typeface (Geist everywhere, Hedvig Letters Serif for the hero headline), soft corners throughout (cards 16px, nested 12px, buttons pill).
+**White editorial.** Majority white page, one neutral burgundy accent (`#8A2233`, the brand's own token, alpha variants only), one typeface (Geist everywhere, Hedvig Letters Serif for the hero and problem statements), soft corners throughout (cards 16px, nested 12px, buttons pill).
 
 - Burgundy appears as a field in exactly two places: the full-bleed stat band and the enterprise card
 - Sequence numbers appear only in the pipeline, because that content really is a sequence

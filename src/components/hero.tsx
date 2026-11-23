@@ -32,7 +32,7 @@ export function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.85, delay: 0.1, ease: EASE }}
               >
-                Every prompt pays
+                Every Prompt Pays
               </motion.span>
             </span>
             <span className="block overflow-hidden pb-[0.25em] -mb-[0.25em]">
@@ -42,7 +42,7 @@ export function Hero() {
                 animate={{ y: 0 }}
                 transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
               >
-                the right price.
+                The Right Price.
               </motion.span>
             </span>
           </h1>

@@ -72,7 +72,7 @@ export function Problem() {
         60-70% of their spend on prompts a small model handles perfectly.
       </p>
 
-      <p className="mt-10 max-w-[24ch] text-4xl font-bold leading-[1.18] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+      <p className="mt-10 max-w-[24ch] text-4xl font-display font-normal leading-[1.18] tracking-tight text-ink sm:text-6xl lg:text-7xl">
         {words.map((w, i) => (
           <Fragment key={i}>
             <span
